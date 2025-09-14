@@ -921,8 +921,8 @@ const NicaragauEcommerce = () => {
       image: '/images/t-shirt/Chiva-esa-nota-black.png',
       // Opcional: diferentes imágenes por color
       colorImages: {
-        '#FFFFFF': '/images/t-shirt/chiva-esa-nota-white.png',
-        '#000000': '/images/t-shirt/chiva-esa-nota-black.png',
+        '#FFFFFF': '/images/t-shirt/Chiva-esa-nota-white.png',
+        '#000000': '/images/t-shirt/Chiva-esa-nota-black.png',
       }
     },
     {
