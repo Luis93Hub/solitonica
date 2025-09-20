@@ -530,7 +530,7 @@ const MaterialSelector = ({product, materials, selectedMaterial, onMaterialSelec
     <select
       value={selectedMaterial}
       onChange={(e) => onMaterialSelect(e.target.value)}
-      className="w-full p-3 border-2 border-stone-300 rounded-xl focus:border-amber-600 focus:outline-none transition-colors duration-200 bg-white/50 backdrop-blur-sm"
+      className="w-full p-3 border-2 text-stone-800 border-stone-300 rounded-xl focus:border-amber-600 focus:outline-none transition-colors duration-200 bg-white/50 backdrop-blur-sm"
     >
       {materials.map((material) => {
         const price = getProductPrice(product, material);
@@ -555,14 +555,29 @@ const ProductActions = ({
   texts,
   currentPrice 
 }) => {
+  const handleTikTokClick = (url) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
   return (
-    <>
+    <div className="space-y-3">
       <div className="flex items-center justify-between mb-4">
         <span className="text-2xl font-bold text-amber-700">${currentPrice}</span>
         {product.materialPrices && (
           <span className='text-xs text-stone-500'>Precio varía según material</span>
         )}
       </div>
+      
+      {product.tiktokUrl && (
+      <button
+        onClick={() => handleTikTokClick(product.tiktokUrl)}
+        className="w-full bg-black text-white py-2.5 px-4 rounded-xl font-semibold hover:bg-gray-800 transition-all duration-300 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg transform hover:scale-105"
+      >
+        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+        </svg>
+        <span>Ver en TikTok</span>
+      </button>
+      )}
 
       <button
         onClick={() => onAddToCart(product, selectedColor, selectedSize, selectedMaterial, currentPrice)}
@@ -571,7 +586,7 @@ const ProductActions = ({
       >
         {currentPrice === 0 ? 'No disponible' : texts.products.addToCart}
       </button>
-    </>
+    </div>
   );
 };
 
@@ -851,7 +866,8 @@ const NicaragauEcommerce = () => {
           all: 'Todos',
           casual: 'Casual',
           patriotic: 'Dichos',
-          humor: 'Humor'
+          humor: 'Humor',
+          christian: 'Cristianas'
         },
         addToCart: 'Agregar al Carrito',
         color: 'Color:',
@@ -883,7 +899,8 @@ const NicaragauEcommerce = () => {
           all: 'All',
           casual: 'Casual',
           patriotic: 'Sayings',
-          humor: 'Humor'
+          humor: 'Humor',
+          christian: 'Christian'
         },
         addToCart: 'Add to Cart',
         color: 'Color:',
@@ -923,7 +940,8 @@ const NicaragauEcommerce = () => {
       colorImages: {
         '#FFFFFF': '/images/t-shirt/Chiva-esa-nota-white.png',
         '#000000': '/images/t-shirt/Chiva-esa-nota-black.png',
-      }
+      },
+      tiktokUrl: 'https://www.tiktok.com/@solitonica/video/7547835731054529814'
     },
     {
       id: 2,
@@ -951,19 +969,20 @@ const NicaragauEcommerce = () => {
     {
       id: 3,
       // name: { es: 'Humor Pinolero', en: 'Pinolero Humor' },
-      name: { es: '✨ Próximamente', en: '✨ Coming soon'},
+      name: { es: '✨Isaías 4:31', en: '✨Isaiah 4:31'},
       // ¡Qué jodido vos!
-      phrase: '✨✨✨✨✨',
-      description: { es: 'Expresión típica nicaragüense', en: 'Typical Nicaraguan expression' },
-      baseprice: 0,
-      category: 'humor',
-      colors: ['#000000', '#FFFFFF', '#003366'],
-      sizes: ['S', 'M', 'L', 'XL'],
-      materials: ['Algodón', 'Blend'],
+      phrase: 'JESÚS',
+      description: { es: 'Mensajes cristianos overside', en: 'Christian messages overside' },
+      baseprice: 20,
+      category: 'christian',
+      colors: ['#000000'],
+      sizes: ['S', 'M'],
+      materials: ['Algodón'],
       materialPrices: {
-        'Algodón': 0,
-        'Blend': 0
-      }
+        'Algodón': 20
+      },
+      image: '/images/t-shirt/Christian/Shirt_Overside_Black_Back.png',
+      tiktokUrl: 'https://www.tiktok.com/@solitonica/video/7552257568106679574'
     },
     {
       id: 4,
