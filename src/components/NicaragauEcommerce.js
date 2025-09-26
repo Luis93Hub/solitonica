@@ -1,7 +1,8 @@
 'use client';
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import { ShoppingCart, X, Plus, Facebook, Instagram, Minus, Globe, Menu, ArrowBigDown, Sparkles } from 'lucide-react';
 import Image from 'next/image';
+
 
 // ================================
 // COMPONENTE HEADER
@@ -132,10 +133,39 @@ const CartIcon = ({ cartItemsCount, setIsCartOpen }) => {
 // COMPONENTE HERO SECTION
 // ================================
 const HeroSection = ({ texts }) => {
+
+  // ================================
+// COMPONENTE HERO SECTION CON CARRUSEL DE IMÁGENES
+// ================================
+  // Array de imágenes para el carrusel
+  const heroImages = [
+    '/images/t-shirt/camisa-blanca-letras-negras-logo-solitonica-nicaragua.png',
+    '/images/t-shirt/camisa-negra-letras-blancas-logo-solitonica-nicaragua.png',
+    '/images/t-shirt/Christian/camisa-negra-letras-blancas-overside-jesús-solitonica-nicaragua.png',
+    '/images/t-shirt/Christian/camisa-negra-letras-blancas-overside-frase-isaías-4:31-solitonica-nicaragua.png',
+    '/images/t-shirt/camisa-blanca-letras-negras-chiva-esa-nota-solitonica-nicaragua-carrusel.png',
+    '/images/t-shirt/camisa-negra-letras-blancas-chiva-esa-nota-solitonica-nicaragua-carrusel.png'
+  ];
+
+  // Estado para controlar qué imagen se muestra
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // useEffect para cambiar la imagen automáticamente
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        (prevIndex + 1) % heroImages.length
+      );
+    }, 3000); // Cambia cada 3 segundos
+
+    // Limpiar el intervalo cuando el componente se desmonte
+    return () => clearInterval(interval);
+  }, [heroImages.length]);
+
   const scrollToProducts = () => {
     document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
   };
-
+  
   return (
     <section className="relative overflow-hidden">
       {/* Floating particles background */}
@@ -206,6 +236,20 @@ const HeroSection = ({ texts }) => {
             <div className="absolute -top-3 -right-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg z-20 animate-bounce">
               ¡Nuevo!
             </div>
+            {/* Indicadores del carrusel */}
+            <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+              {heroImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentImageIndex(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    currentImageIndex === index 
+                      ? 'bg-amber-600 w-6' 
+                      : 'bg-stone-400 hover:bg-amber-400'
+                  }`}
+                />
+              ))}
+            </div>
             
             {/* Main image container */}
             <div className="relative bg-white/90 backdrop-blur-sm rounded-3xl p-6 border border-stone-200/50 shadow-xl group-hover:shadow-2xl group-hover:scale-105 transition-all duration-500 overflow-hidden">
@@ -214,12 +258,14 @@ const HeroSection = ({ texts }) => {
               
               <div className="relative z-10 w-full h-64 bg-gradient-to-br from-stone-600 to-amber-700 rounded-2xl group-hover:scale-110 transition-transform duration-500 filter group-hover:brightness-110 flex items-center justify-center text-white font-bold text-lg">
                 <div className=" text-gray-800 p-4 text-center">
-                  <Image
-                    src={'/images/photo-shirt.png'}
-                    width={180}
-                    height={180}
-                    alt='logo'
-                  />
+                  <div className='transition-opacity duration-1000 ease-in-out'>
+                    <Image
+                      src={heroImages[currentImageIndex]}
+                        width={180}
+                        height={180}
+                      alt={`camiseta ${currentImageIndex + 1}`}
+                    />
+                  </div>
                 </div>
               </div>
               
@@ -935,19 +981,17 @@ const NicaragauEcommerce = () => {
         'Algodón': 10,
         'Poliéster': 14,
       },
-      image: '/images/t-shirt/Chiva-esa-nota-black.png',
+      image: '/images/t-shirt/camisa-blanca-letras-negras-chiva-esa-nota-solitonica-nicaragua.png',
       // Opcional: diferentes imágenes por color
       colorImages: {
-        '#FFFFFF': '/images/t-shirt/Chiva-esa-nota-white.png',
-        '#000000': '/images/t-shirt/Chiva-esa-nota-black.png',
+        '#FFFFFF': '/images/t-shirt/camisa-blanca-letras-negras-chiva-esa-nota-solitonica-nicaragua.png',
+        '#000000': '/images/t-shirt/camisa-negra-letras-blancas-chiva-esa-nota-solitonica-nicaragua.png',
       },
-      tiktokUrl: 'https://www.tiktok.com/@solitonica/video/7547835731054529814'
+      tiktokUrl: 'https://www.tiktok.com/@solitonica/video/7554485899367615766'
     },
     {
       id: 2,
-      // name: { es: 'Tierra de Lagos', en: 'Land of Lakes' },
       name: { es: '✨ @solitonica', en: '✨ @solitonica'},
-      // phrase: 'Tierra de Lagos y Volcanes',
       phrase: 'Classic',
       description: { es: 'Camisa Clasica', en: 'Classic Shirt' },
       baseprice: 0,
@@ -959,18 +1003,16 @@ const NicaragauEcommerce = () => {
         'Algodón': 10,
         'Poliéster': 14, 
       },
-      image: '/images/t-shirt/@solitonica-white.png',
-      // Opcional: diferentes imágenes por color
+      image: '/images/t-shirt/camisa-blanca-letras-negras-logo-solitonica-nicaragua.png',
       colorImages: {
-        '#FFFFFF': '/images/t-shirt/@solitonica-white.png',
-        '#000000': '/images/t-shirt/@solitonica-black.png',
-      }
+        '#FFFFFF': '/images/t-shirt/camisa-blanca-letras-negras-logo-solitonica-nicaragua.png',
+        '#000000': '/images/t-shirt/camisa-negra-letras-blancas-logo-solitonica-nicaragua.png',
+      },
+      tiktokUrl: 'https://www.tiktok.com/@solitonica/video/7554496630829976854'
     },
     {
       id: 3,
-      // name: { es: 'Humor Pinolero', en: 'Pinolero Humor' },
       name: { es: '✨Isaías 4:31', en: '✨Isaiah 4:31'},
-      // ¡Qué jodido vos!
       phrase: 'JESÚS',
       description: { es: 'Mensajes cristianos overside', en: 'Christian messages overside' },
       baseprice: 20,
@@ -981,14 +1023,28 @@ const NicaragauEcommerce = () => {
       materialPrices: {
         'Algodón': 20
       },
-      image: '/images/t-shirt/Christian/Shirt_Overside_Black_Back.png',
+      image: '/images/t-shirt/Christian/camisa-negra-letras-blancas-overside-frase-isaías-4:31-solitonica-nicaragua.png',
       tiktokUrl: 'https://www.tiktok.com/@solitonica/video/7552257568106679574'
     },
     {
       id: 4,
-      // name: { es: 'Casual Nica', en: 'Casual Nica' },
+      name: { es: '✨Al chile', en: '✨Al chile'},
+      phrase: 'AL CHILE',
+      description: { es: 'Frase clásica nicaragüense', en: 'Classic Nicaraguan phrase' },
+      baseprice: 20,
+      category: 'patriotic',
+      colors: ['#FFFFFF'],
+      sizes: ['S', 'M'],
+      materials: ['Algodón'],
+      materialPrices: {
+        'Algodón': 10
+      },
+      image: '/images/t-shirt/camisa-blanca-letras-negras-al-chile-solitonica-nicaragua.png',
+      tiktokUrl: 'https://www.tiktok.com/@solitonica/video/7554245423259520278'
+    },
+    {
+      id: 5,
       name: { es: '✨ Próximamente', en: '✨ Coming soon' },
-      //phrase: 'Nicaragua Mi País',
       phrase: '✨✨✨✨✨',
       description: { es: 'Diseño minimalista', en: 'Minimalist design' },
       baseprice: 0,
